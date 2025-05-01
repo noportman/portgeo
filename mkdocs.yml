@@ -81,6 +81,7 @@ nav:
     - Report Issues: https://github.com/noportman/portgeo/issues
     - Examples:
         - examples/intro.ipynb
+        - examples/map.ipynb
     - API Reference:
           - portgeo module: portgeo.md
           - common module: common.md
