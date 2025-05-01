@@ -1,0 +1,12 @@
+# Use LF for all text files
+* text=auto
+
+# Force Jupyter notebooks to use LF endings
+*.ipynb text eol=lf
+
+# Optional: set endings for other file types
+*.py text eol=lf
+*.sh text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
