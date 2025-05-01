@@ -14,6 +14,5 @@
 
 ## Features
 
--   TO-DO
--   hello world
+-    To-Do
 -   create tool
