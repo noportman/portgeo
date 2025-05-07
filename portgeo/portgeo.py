@@ -91,3 +91,9 @@ class Map(ipyleaflet.Map):
             raise ValueError(
                 "Unsupported data type. Please provide a GeoDataFrame, GeoJSON, or file path."
             )
+
+    def add_layer_control(self, **kwargs):
+        """Add a layer control to the map."""
+
+        layer_control = ipyleaflet.LayersControl(position="topright", **kwargs)
+        self.add_control(layer_control)
