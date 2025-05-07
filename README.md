@@ -14,5 +14,5 @@
 ## Features
 
 -   Add geospatial tool
--   Add functionality
+-   Add module functionality
 -   Add examples
