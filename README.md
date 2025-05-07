@@ -14,3 +14,4 @@
 ## Features
 
 -   Add geospatial tool
+-   Add functionality
