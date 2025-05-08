@@ -8,7 +8,12 @@ class Map(folium.Map):
         super().__init__(location=center, zoom_start=zoom, **kwargs)
 
     def add_geojson(self, data, **kwargs):
-        """Add a GeoJSON layer to the map."""
+        """Add a GeoJSON layer to the map.
+
+        Args:
+            data (str or dict): Path to the GeoJSON file or GeoJSON data.
+            **kwargs: Additional arguments for folium.GeoJson.
+        """
 
         import geopandas as gpd
 
@@ -22,7 +27,12 @@ class Map(folium.Map):
         folium.GeoJson(data=geojson, **kwargs).add_to(self)
 
     def add_shp(self, data, **kwargs):
-        """Add a shapefile layer to the map."""
+        """Add a shapefile layer to the map.
+
+        Args:
+            data (str): Path to the shapefile.
+            **kwargs: Additional arguments for folium.GeoJson.
+        """
 
         import geopandas as gpd
 
@@ -32,14 +42,26 @@ class Map(folium.Map):
         self.add_geojson(geojson, **kwargs)
 
     def add_gdf(self, gdf, **kwargs):
-        """Add a GeoDataFrame layer to the map."""
+        """Add a GeoDataFrame layer to the map.
+
+        Args:
+            gdf (GeoDataFrame): GeoDataFrame to add.
+            **kwargs: Additional arguments for folium.GeoJson.
+        """
 
         gdf = gdf.to_crs(epsg=4326)
         geojson = gdf.__geo_interface__
         self.add_geojson(geojson, **kwargs)
 
     def add_vector(self, data, **kwargs):
-        """Add a vector layer to the map."""
+        """Add a vector layer to the map.
+
+        Args:
+            data (str or GeoDataFrame or dict): Path to the vector file,
+                GeoDataFrame, or GeoJSON data.
+            **kwargs: Additional arguments for folium.GeoJson.
+        """
+        import folium
 
         import geopandas as gpd
 
@@ -56,5 +78,9 @@ class Map(folium.Map):
             )
 
     def add_layer_control(self):
-        """Add a layer control to the map."""
+        """Add a layer control to the map.
+
+        Args:
+            **kwargs: Additional arguments for folium.LayerControl.
+        """
         folium.LayerControl().add_to(self)
