@@ -736,6 +736,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#portgeo.foliumap.Map.add_choropleth" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_choropleth()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#portgeo.foliumap.Map.add_gdf" class="md-nav__link">
     <span class="md-ellipsis">
       add_gdf()
@@ -854,6 +863,15 @@
   
     <nav class="md-nav" aria-label="Map">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#portgeo.foliumap.Map.add_choropleth" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_choropleth()
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#portgeo.foliumap.Map.add_gdf" class="md-nav__link">
@@ -1086,6 +1104,74 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <span class="n">layer_left</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">layer_right</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">sbs</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_choropleth</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">gdf</span><span class="p">,</span>
+        <span class="n">column</span><span class="p">,</span>
+        <span class="n">join_col</span><span class="p">,</span>
+        <span class="n">key_on</span><span class="o">=</span><span class="s2">&quot;feature.properties.id&quot;</span><span class="p">,</span>
+        <span class="n">fill_color</span><span class="o">=</span><span class="s2">&quot;YlGn&quot;</span><span class="p">,</span>
+        <span class="n">legend_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a Choropleth layer to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            gdf (GeoDataFrame or str): GeoDataFrame or path to file with geometries and data.</span>
+<span class="sd">            column (str): Column in the GeoDataFrame to color by.</span>
+<span class="sd">            join_col (str): Column to join GeoJSON and data on.</span>
+<span class="sd">            key_on (str): GeoJSON property key to match join_col (e.g., &#39;feature.properties.&lt;name&gt;&#39;).</span>
+<span class="sd">            fill_color (str): Color scheme for the choropleth.</span>
+<span class="sd">            legend_name (str): Name for the legend.</span>
+<span class="sd">            **kwargs: Additional arguments for folium.Choropleth.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+        <span class="c1"># Case 1: file path</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">gdf</span><span class="p">)</span>
+            <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+            <span class="n">geojson</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">gdf</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
+
+        <span class="c1"># Case 2: GeoJSON dictionary</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;features&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gdf</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;GeoJSON dict must have a &#39;features&#39; key.&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_features</span><span class="p">(</span><span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;features&quot;</span><span class="p">])</span>
+                <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+                <span class="n">geojson</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">__geo_interface__</span>  <span class="c1"># or json.loads(gdf.to_json())</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to parse GeoJSON dictionary: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Case 3: GeoDataFrame</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">):</span>
+            <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+            <span class="n">geojson</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">gdf</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;gdf must be a GeoDataFrame, file path, or GeoJSON dictionary.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">join_col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span> <span class="ow">or</span> <span class="n">column</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">join_col</span><span class="si">}</span><span class="s2">&#39; and/or &#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#39; not found in GeoDataFrame columns: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">folium</span><span class="o">.</span><span class="n">Choropleth</span><span class="p">(</span>
+            <span class="n">geo_data</span><span class="o">=</span><span class="n">geojson</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">gdf</span><span class="p">[[</span><span class="n">join_col</span><span class="p">,</span> <span class="n">column</span><span class="p">]],</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">join_col</span><span class="p">,</span> <span class="n">column</span><span class="p">],</span>
+            <span class="n">key_on</span><span class="o">=</span><span class="n">key_on</span><span class="p">,</span>
+            <span class="n">fill_color</span><span class="o">=</span><span class="n">fill_color</span><span class="p">,</span>
+            <span class="n">fill_opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+            <span class="n">line_opacity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+            <span class="n">legend_name</span><span class="o">=</span><span class="n">legend_name</span> <span class="ow">or</span> <span class="n">column</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
 
@@ -1099,6 +1185,152 @@ Map            (<span title="folium.folium.Map">Map</span>)
 
 
 
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="portgeo.foliumap.Map.add_choropleth" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">join_col</span><span class="p">,</span> <span class="n">key_on</span><span class="o">=</span><span class="s1">&#39;feature.properties.id&#39;</span><span class="p">,</span> <span class="n">fill_color</span><span class="o">=</span><span class="s1">&#39;YlGn&#39;</span><span class="p">,</span> <span class="n">legend_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+<a href="#portgeo.foliumap.Map.add_choropleth" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Add a Choropleth layer to the map.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>gdf</code></td>
+        <td><code>GeoDataFrame or str</code></td>
+        <td><p>GeoDataFrame or path to file with geometries and data.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>column</code></td>
+        <td><code>str</code></td>
+        <td><p>Column in the GeoDataFrame to color by.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>join_col</code></td>
+        <td><code>str</code></td>
+        <td><p>Column to join GeoJSON and data on.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>key_on</code></td>
+        <td><code>str</code></td>
+        <td><p>GeoJSON property key to match join_col (e.g., 'feature.properties.<name>').</p></td>
+        <td><code>&#39;feature.properties.id&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>fill_color</code></td>
+        <td><code>str</code></td>
+        <td><p>Color scheme for the choropleth.</p></td>
+        <td><code>&#39;YlGn&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>legend_name</code></td>
+        <td><code>str</code></td>
+        <td><p>Name for the legend.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for folium.Choropleth.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>portgeo/foliumap.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_choropleth</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">gdf</span><span class="p">,</span>
+    <span class="n">column</span><span class="p">,</span>
+    <span class="n">join_col</span><span class="p">,</span>
+    <span class="n">key_on</span><span class="o">=</span><span class="s2">&quot;feature.properties.id&quot;</span><span class="p">,</span>
+    <span class="n">fill_color</span><span class="o">=</span><span class="s2">&quot;YlGn&quot;</span><span class="p">,</span>
+    <span class="n">legend_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a Choropleth layer to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        gdf (GeoDataFrame or str): GeoDataFrame or path to file with geometries and data.</span>
+<span class="sd">        column (str): Column in the GeoDataFrame to color by.</span>
+<span class="sd">        join_col (str): Column to join GeoJSON and data on.</span>
+<span class="sd">        key_on (str): GeoJSON property key to match join_col (e.g., &#39;feature.properties.&lt;name&gt;&#39;).</span>
+<span class="sd">        fill_color (str): Color scheme for the choropleth.</span>
+<span class="sd">        legend_name (str): Name for the legend.</span>
+<span class="sd">        **kwargs: Additional arguments for folium.Choropleth.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+    <span class="c1"># Case 1: file path</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">gdf</span><span class="p">)</span>
+        <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+        <span class="n">geojson</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">gdf</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
+
+    <span class="c1"># Case 2: GeoJSON dictionary</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;features&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gdf</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;GeoJSON dict must have a &#39;features&#39; key.&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_features</span><span class="p">(</span><span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;features&quot;</span><span class="p">])</span>
+            <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+            <span class="n">geojson</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">__geo_interface__</span>  <span class="c1"># or json.loads(gdf.to_json())</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to parse GeoJSON dictionary: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Case 3: GeoDataFrame</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">):</span>
+        <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+        <span class="n">geojson</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">gdf</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;gdf must be a GeoDataFrame, file path, or GeoJSON dictionary.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">join_col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span> <span class="ow">or</span> <span class="n">column</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">join_col</span><span class="si">}</span><span class="s2">&#39; and/or &#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#39; not found in GeoDataFrame columns: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">folium</span><span class="o">.</span><span class="n">Choropleth</span><span class="p">(</span>
+        <span class="n">geo_data</span><span class="o">=</span><span class="n">geojson</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">gdf</span><span class="p">[[</span><span class="n">join_col</span><span class="p">,</span> <span class="n">column</span><span class="p">]],</span>
+        <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">join_col</span><span class="p">,</span> <span class="n">column</span><span class="p">],</span>
+        <span class="n">key_on</span><span class="o">=</span><span class="n">key_on</span><span class="p">,</span>
+        <span class="n">fill_color</span><span class="o">=</span><span class="n">fill_color</span><span class="p">,</span>
+        <span class="n">fill_opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+        <span class="n">line_opacity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">legend_name</span><span class="o">=</span><span class="n">legend_name</span> <span class="ow">or</span> <span class="n">column</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
 
 
