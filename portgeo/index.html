@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://noportman.github.io/portgeo/portgeo/">
       
       
-        <link rel="prev" href="../examples/folium/">
+        <link rel="prev" href="../examples/raster/">
       
       
         <link rel="next" href="../common/">
@@ -523,6 +523,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/raster/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Raster
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -682,9 +705,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#portgeo.portgeo.Map.add_image" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_image()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#portgeo.portgeo.Map.add_layer_control" class="md-nav__link">
     <span class="md-ellipsis">
       add_layer_control()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portgeo.portgeo.Map.add_raster" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_raster()
     </span>
   </a>
   
@@ -703,6 +744,24 @@
   <a href="#portgeo.portgeo.Map.add_vector" class="md-nav__link">
     <span class="md-ellipsis">
       add_vector()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portgeo.portgeo.Map.add_video" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_video()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portgeo.portgeo.Map.add_wms_layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_wms_layer()
     </span>
   </a>
   
@@ -857,9 +916,27 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#portgeo.portgeo.Map.add_image" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_image()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#portgeo.portgeo.Map.add_layer_control" class="md-nav__link">
     <span class="md-ellipsis">
       add_layer_control()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portgeo.portgeo.Map.add_raster" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_raster()
     </span>
   </a>
   
@@ -878,6 +955,24 @@
   <a href="#portgeo.portgeo.Map.add_vector" class="md-nav__link">
     <span class="md-ellipsis">
       add_vector()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portgeo.portgeo.Map.add_video" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_video()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portgeo.portgeo.Map.add_wms_layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_wms_layer()
     </span>
   </a>
   
@@ -1014,9 +1109,12 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a basemap to the map.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            basemap (str): Name of the basemap to add.</span>
-<span class="sd">                Options: &#39;OpenStreetMap&#39;, &#39;Stamen Terrain&#39;, &#39;Stamen Toner&#39;, &#39;Stamen Watercolor&#39;,</span>
-<span class="sd">                &#39;CartoDB Positron&#39;, &#39;CartoDB Dark Matter&#39;, &#39;Esri WorldImagery&#39;, &#39;Google Maps&#39;.</span>
+<span class="sd">            Options: &#39;OpenStreetMap.Mapnik&#39;, &#39;OpenStreetMap.France&#39;, &#39;OpenStreetMap.HOT&#39;, &#39;OpenTopoMap&#39;,</span>
+<span class="sd">                            &#39;Gaode.Normal&#39;, &#39;Gaode.Satellite&#39;, &#39;Esri.WorldStreetMap&#39;, &#39;Esri.WorldTopoMap&#39;, &#39;Esri.WorldImagery&#39;,</span>
+<span class="sd">                            &#39;Esri.NatGeoWorldMap&#39;, &#39;CartoDB.Positron&#39;, &#39;CartoDB.DarkMatter&#39;, &#39;NASAGIBS.ModisTerraTrueColorCR&#39;,</span>
+<span class="sd">                            &#39;NASAGIBS.ModisTerraBands367CR&#39;, &#39;NASAGIBS.ModisTerraBands721CR&#39;, &#39;NASAGIBS.ModisAquaTrueColorCR&#39;,</span>
+<span class="sd">                            &#39;NASAGIBS.ModisAquaBands721CR&#39;, &#39;NASAGIBS.ViirsTrueColorCR&#39;, &#39;NASAGIBS.ViirsEarthAtNight2012&#39;,</span>
+<span class="sd">                            &#39;Strava.All&#39;, &#39;Strava.Ride&#39;, &#39;Strava.Run&#39;, &#39;Strava.Water&#39;, &#39;Strava.Winter&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ipyleaflet.basemaps.</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
@@ -1134,6 +1232,68 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
         <span class="n">layer_control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">LayersControl</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">layer_control</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_raster</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a raster layer to the map.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            filepath (str): Path to the raster file.</span>
+<span class="sd">            **kwargs: Additional arguments for localtileserver.TileClient.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">localtileserver</span><span class="w"> </span><span class="kn">import</span> <span class="n">TileClient</span><span class="p">,</span> <span class="n">get_leaflet_tile_layer</span>
+
+        <span class="n">client</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="n">tile_layer</span> <span class="o">=</span> <span class="n">get_leaflet_tile_layer</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tile_layer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoom</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">default_zoom</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an image layer to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            image (str): Path to the image file.</span>
+<span class="sd">            bounds (list, optional): Bounds of the image in the format [[lat1, lon1], [lat2, lon2]].</span>
+<span class="sd">            **kwargs: Additional arguments for ipyleaflet.ImageOverlay.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">bounds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bounds</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">],</span> <span class="p">[</span><span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">]]</span>
+
+        <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">ImageOverlay</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_video</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a video layer to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            video (str): Path to the video file.</span>
+<span class="sd">            bounds (list, optional): Bounds of the video in the format [[lat1, lon1], [lat2, lon2]].</span>
+<span class="sd">            **kwargs: Additional arguments for ipyleaflet.VideoOverlay.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">bounds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bounds</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">],</span> <span class="p">[</span><span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">]]</span>
+
+        <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">VideoOverlay</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">video</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_wms_layer</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a WMS layer to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            url (str): URL of the WMS service.</span>
+<span class="sd">            layers (str): Comma-separated list of layer names.</span>
+<span class="sd">            **kwargs: Additional arguments for ipyleaflet.WMSLayer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">WMSLayer</span><span class="p">(</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="n">transparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 </code></pre></div>
         </details>
 
@@ -1176,12 +1336,15 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
   </thead>
   <tbody>
       <tr>
-        <td><code>basemap</code></td>
-        <td><code>str</code></td>
-        <td><p>Name of the basemap to add.
-Options: 'OpenStreetMap', 'Stamen Terrain', 'Stamen Toner', 'Stamen Watercolor',
-'CartoDB Positron', 'CartoDB Dark Matter', 'Esri WorldImagery', 'Google Maps'.</p></td>
-        <td><code>&#39;OpenStreetMap&#39;</code></td>
+        <td><code>Options</code></td>
+        <td></td>
+        <td><p>'OpenStreetMap.Mapnik', 'OpenStreetMap.France', 'OpenStreetMap.HOT', 'OpenTopoMap',
+            'Gaode.Normal', 'Gaode.Satellite', 'Esri.WorldStreetMap', 'Esri.WorldTopoMap', 'Esri.WorldImagery',
+            'Esri.NatGeoWorldMap', 'CartoDB.Positron', 'CartoDB.DarkMatter', 'NASAGIBS.ModisTerraTrueColorCR',
+            'NASAGIBS.ModisTerraBands367CR', 'NASAGIBS.ModisTerraBands721CR', 'NASAGIBS.ModisAquaTrueColorCR',
+            'NASAGIBS.ModisAquaBands721CR', 'NASAGIBS.ViirsTrueColorCR', 'NASAGIBS.ViirsEarthAtNight2012',
+            'Strava.All', 'Strava.Ride', 'Strava.Run', 'Strava.Water', 'Strava.Winter'.</p></td>
+        <td><em>required</em></td>
       </tr>
   </tbody>
 </table>
@@ -1191,9 +1354,12 @@ Options: 'OpenStreetMap', 'Stamen Terrain', 'Stamen Toner', 'Stamen Watercolor',
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a basemap to the map.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        basemap (str): Name of the basemap to add.</span>
-<span class="sd">            Options: &#39;OpenStreetMap&#39;, &#39;Stamen Terrain&#39;, &#39;Stamen Toner&#39;, &#39;Stamen Watercolor&#39;,</span>
-<span class="sd">            &#39;CartoDB Positron&#39;, &#39;CartoDB Dark Matter&#39;, &#39;Esri WorldImagery&#39;, &#39;Google Maps&#39;.</span>
+<span class="sd">        Options: &#39;OpenStreetMap.Mapnik&#39;, &#39;OpenStreetMap.France&#39;, &#39;OpenStreetMap.HOT&#39;, &#39;OpenTopoMap&#39;,</span>
+<span class="sd">                        &#39;Gaode.Normal&#39;, &#39;Gaode.Satellite&#39;, &#39;Esri.WorldStreetMap&#39;, &#39;Esri.WorldTopoMap&#39;, &#39;Esri.WorldImagery&#39;,</span>
+<span class="sd">                        &#39;Esri.NatGeoWorldMap&#39;, &#39;CartoDB.Positron&#39;, &#39;CartoDB.DarkMatter&#39;, &#39;NASAGIBS.ModisTerraTrueColorCR&#39;,</span>
+<span class="sd">                        &#39;NASAGIBS.ModisTerraBands367CR&#39;, &#39;NASAGIBS.ModisTerraBands721CR&#39;, &#39;NASAGIBS.ModisAquaTrueColorCR&#39;,</span>
+<span class="sd">                        &#39;NASAGIBS.ModisAquaBands721CR&#39;, &#39;NASAGIBS.ViirsTrueColorCR&#39;, &#39;NASAGIBS.ViirsEarthAtNight2012&#39;,</span>
+<span class="sd">                        &#39;Strava.All&#39;, &#39;Strava.Ride&#39;, &#39;Strava.Run&#39;, &#39;Strava.Water&#39;, &#39;Strava.Winter&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">url</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ipyleaflet.basemaps.</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
@@ -1423,6 +1589,75 @@ Options: 'roadmap', 'satellite', 'hybrid', 'terrain'.</p></td>
 
 
 
+<h3 id="portgeo.portgeo.Map.add_image" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+<a href="#portgeo.portgeo.Map.add_image" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Add an image layer to the map.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>image</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the image file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>bounds</code></td>
+        <td><code>list</code></td>
+        <td><p>Bounds of the image in the format [[lat1, lon1], [lat2, lon2]].</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for ipyleaflet.ImageOverlay.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>portgeo/portgeo.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add an image layer to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        image (str): Path to the image file.</span>
+<span class="sd">        bounds (list, optional): Bounds of the image in the format [[lat1, lon1], [lat2, lon2]].</span>
+<span class="sd">        **kwargs: Additional arguments for ipyleaflet.ImageOverlay.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">bounds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">],</span> <span class="p">[</span><span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">]]</span>
+
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">ImageOverlay</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
 <h3 id="portgeo.portgeo.Map.add_layer_control" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">add_layer_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
@@ -1463,6 +1698,70 @@ Options: 'roadmap', 'satellite', 'hybrid', 'terrain'.</p></td>
 
     <span class="n">layer_control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">LayersControl</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">layer_control</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="portgeo.portgeo.Map.add_raster" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_raster</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+<a href="#portgeo.portgeo.Map.add_raster" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Add a raster layer to the map.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>filepath</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the raster file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for localtileserver.TileClient.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>portgeo/portgeo.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_raster</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a raster layer to the map.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (str): Path to the raster file.</span>
+<span class="sd">        **kwargs: Additional arguments for localtileserver.TileClient.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">localtileserver</span><span class="w"> </span><span class="kn">import</span> <span class="n">TileClient</span><span class="p">,</span> <span class="n">get_leaflet_tile_layer</span>
+
+    <span class="n">client</span> <span class="o">=</span> <span class="n">TileClient</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">tile_layer</span> <span class="o">=</span> <span class="n">get_leaflet_tile_layer</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tile_layer</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">zoom</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">default_zoom</span>
 </code></pre></div>
         </details>
     </div>
@@ -1616,6 +1915,145 @@ GeoDataFrame, or GeoJSON data.</p></td>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="s2">&quot;Unsupported data type. Please provide a GeoDataFrame, GeoJSON, or file path.&quot;</span>
         <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="portgeo.portgeo.Map.add_video" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_video</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+<a href="#portgeo.portgeo.Map.add_video" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Add a video layer to the map.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>video</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the video file.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>bounds</code></td>
+        <td><code>list</code></td>
+        <td><p>Bounds of the video in the format [[lat1, lon1], [lat2, lon2]].</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for ipyleaflet.VideoOverlay.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>portgeo/portgeo.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_video</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">video</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a video layer to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        video (str): Path to the video file.</span>
+<span class="sd">        bounds (list, optional): Bounds of the video in the format [[lat1, lon1], [lat2, lon2]].</span>
+<span class="sd">        **kwargs: Additional arguments for ipyleaflet.VideoOverlay.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">bounds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="o">-</span><span class="mi">180</span><span class="p">],</span> <span class="p">[</span><span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">]]</span>
+
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">VideoOverlay</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">video</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="portgeo.portgeo.Map.add_wms_layer" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_wms_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;image/png&#39;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+<a href="#portgeo.portgeo.Map.add_wms_layer" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Add a WMS layer to the map.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>url</code></td>
+        <td><code>str</code></td>
+        <td><p>URL of the WMS service.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>layers</code></td>
+        <td><code>str</code></td>
+        <td><p>Comma-separated list of layer names.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for ipyleaflet.WMSLayer.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>portgeo/portgeo.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_wms_layer</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;image/png&quot;</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a WMS layer to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        url (str): URL of the WMS service.</span>
+<span class="sd">        layers (str): Comma-separated list of layer names.</span>
+<span class="sd">        **kwargs: Additional arguments for ipyleaflet.WMSLayer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">WMSLayer</span><span class="p">(</span>
+        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="n">transparent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
