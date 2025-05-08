@@ -745,6 +745,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foliumap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    folium module
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -924,10 +947,61 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
       <p>Custom Map class to handle portgeos.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>center</code></td>
+        <td><code>list</code></td>
+        <td><p>Center of the map.</p></td>
+        <td><code>[20, 0]</code></td>
+      </tr>
+      <tr>
+        <td><code>zoom</code></td>
+        <td><code>int</code></td>
+        <td><p>Zoom level of the map.</p></td>
+        <td><code>2</code></td>
+      </tr>
+      <tr>
+        <td><code>scroll_wheel_zoom</code></td>
+        <td><code>bool</code></td>
+        <td><p>Enable scroll wheel zoom.</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>height</code></td>
+        <td><code>str</code></td>
+        <td><p>Height of the map.</p></td>
+        <td><code>&#39;400px&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for ipyleaflet.Map.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>portgeo/portgeo.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Map</span><span class="p">(</span><span class="n">ipyleaflet</span><span class="o">.</span><span class="n">Map</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom Map class to handle portgeos.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom Map class to handle portgeos.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        center (list): Center of the map.</span>
+<span class="sd">        zoom (int): Zoom level of the map.</span>
+<span class="sd">        scroll_wheel_zoom (bool): Enable scroll wheel zoom.</span>
+<span class="sd">        height (str): Height of the map.</span>
+<span class="sd">        **kwargs: Additional arguments for ipyleaflet.Map.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">scroll_wheel_zoom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;400px&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
@@ -937,14 +1011,25 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_basemap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basemap</span><span class="o">=</span><span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a basemap to the map.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a basemap to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            basemap (str): Name of the basemap to add.</span>
+<span class="sd">                Options: &#39;OpenStreetMap&#39;, &#39;Stamen Terrain&#39;, &#39;Stamen Toner&#39;, &#39;Stamen Watercolor&#39;,</span>
+<span class="sd">                &#39;CartoDB Positron&#39;, &#39;CartoDB Dark Matter&#39;, &#39;Esri WorldImagery&#39;, &#39;Google Maps&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ipyleaflet.basemaps.</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
         <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">basemap</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_google_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_type</span><span class="o">=</span><span class="s2">&quot;roadmap&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a Google Map to the map.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a Google Map to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            map_type (str): Type of Google Map to add.</span>
+<span class="sd">                Options: &#39;roadmap&#39;, &#39;satellite&#39;, &#39;hybrid&#39;, &#39;terrain&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">map_types</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;roadmap&quot;</span><span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;satellite&quot;</span><span class="p">:</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;hybrid&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;terrain&quot;</span><span class="p">:</span> <span class="s2">&quot;p&quot;</span><span class="p">}</span>
         <span class="n">map_type</span> <span class="o">=</span> <span class="n">map_types</span><span class="p">[</span><span class="n">map_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
@@ -954,7 +1039,14 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">zoom_to_layer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a GeoJSON layer to the map.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a GeoJSON layer to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (str or dict): Path to the GeoJSON file or GeoJSON data.</span>
+<span class="sd">            zoom_to_layer (bool): Whether to zoom to the layer bounds.</span>
+<span class="sd">            hover_style (dict): Style for hover effect.</span>
+<span class="sd">            **kwargs: Additional arguments for ipyleaflet.GeoJSON.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
@@ -981,7 +1073,12 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
             <span class="bp">self</span><span class="o">.</span><span class="n">fit_bounds</span><span class="p">([[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">]]])</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_shp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a shapefile layer to the map.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a shapefile layer to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (str): Path to the shapefile.</span>
+<span class="sd">            **kwargs: Additional arguments for ipyleaflet.GeoJSON.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
@@ -991,14 +1088,28 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
         <span class="bp">self</span><span class="o">.</span><span class="n">add_geojson</span><span class="p">(</span><span class="n">geojson</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_gdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a GeoDataFrame layer to the map.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a GeoDataFrame layer to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            gdf (GeoDataFrame): GeoDataFrame to add.</span>
+<span class="sd">            **kwargs: Additional arguments for ipyleaflet.GeoJSON.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
         <span class="n">geojson</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">__geo_interface__</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_geojson</span><span class="p">(</span><span class="n">geojson</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a vector layer to the map.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a vector layer to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (str or geopandas.GeoDataFrame or dict): Path to the vector file,</span>
+<span class="sd">                GeoDataFrame, or GeoJSON data.</span>
+<span class="sd">            **kwargs: Additional arguments for ipyleaflet.GeoJSON.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the data type is unsupported.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
@@ -1015,7 +1126,11 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
             <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_layer_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a layer control to the map.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a layer control to the map.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs: Additional arguments for ipyleaflet.LayersControl.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">layer_control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">LayersControl</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">layer_control</span><span class="p">)</span>
@@ -1049,10 +1164,37 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
       <p>Add a basemap to the map.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>basemap</code></td>
+        <td><code>str</code></td>
+        <td><p>Name of the basemap to add.
+Options: 'OpenStreetMap', 'Stamen Terrain', 'Stamen Toner', 'Stamen Watercolor',
+'CartoDB Positron', 'CartoDB Dark Matter', 'Esri WorldImagery', 'Google Maps'.</p></td>
+        <td><code>&#39;OpenStreetMap&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>portgeo/portgeo.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_basemap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basemap</span><span class="o">=</span><span class="s2">&quot;OpenStreetMap&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a basemap to the map.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a basemap to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        basemap (str): Name of the basemap to add.</span>
+<span class="sd">            Options: &#39;OpenStreetMap&#39;, &#39;Stamen Terrain&#39;, &#39;Stamen Toner&#39;, &#39;Stamen Watercolor&#39;,</span>
+<span class="sd">            &#39;CartoDB Positron&#39;, &#39;CartoDB Dark Matter&#39;, &#39;Esri WorldImagery&#39;, &#39;Google Maps&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">url</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ipyleaflet.basemaps.</span><span class="si">{</span><span class="n">basemap</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_url</span><span class="p">()</span>
     <span class="n">layer</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">basemap</span><span class="p">)</span>
@@ -1079,10 +1221,40 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
       <p>Add a GeoDataFrame layer to the map.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>gdf</code></td>
+        <td><code>GeoDataFrame</code></td>
+        <td><p>GeoDataFrame to add.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for ipyleaflet.GeoJSON.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>portgeo/portgeo.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_gdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a GeoDataFrame layer to the map.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a GeoDataFrame layer to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        gdf (GeoDataFrame): GeoDataFrame to add.</span>
+<span class="sd">        **kwargs: Additional arguments for ipyleaflet.GeoJSON.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
     <span class="n">geojson</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">__geo_interface__</span>
@@ -1109,10 +1281,54 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
       <p>Add a GeoJSON layer to the map.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>data</code></td>
+        <td><code>str or dict</code></td>
+        <td><p>Path to the GeoJSON file or GeoJSON data.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>zoom_to_layer</code></td>
+        <td><code>bool</code></td>
+        <td><p>Whether to zoom to the layer bounds.</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>hover_style</code></td>
+        <td><code>dict</code></td>
+        <td><p>Style for hover effect.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for ipyleaflet.GeoJSON.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>portgeo/portgeo.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">zoom_to_layer</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hover_style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a GeoJSON layer to the map.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a GeoJSON layer to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (str or dict): Path to the GeoJSON file or GeoJSON data.</span>
+<span class="sd">        zoom_to_layer (bool): Whether to zoom to the layer bounds.</span>
+<span class="sd">        hover_style (dict): Style for hover effect.</span>
+<span class="sd">        **kwargs: Additional arguments for ipyleaflet.GeoJSON.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
@@ -1159,10 +1375,35 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
       <p>Add a Google Map to the map.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>map_type</code></td>
+        <td><code>str</code></td>
+        <td><p>Type of Google Map to add.
+Options: 'roadmap', 'satellite', 'hybrid', 'terrain'.</p></td>
+        <td><code>&#39;roadmap&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>portgeo/portgeo.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_google_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_type</span><span class="o">=</span><span class="s2">&quot;roadmap&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a Google Map to the map.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a Google Map to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        map_type (str): Type of Google Map to add.</span>
+<span class="sd">            Options: &#39;roadmap&#39;, &#39;satellite&#39;, &#39;hybrid&#39;, &#39;terrain&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">map_types</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;roadmap&quot;</span><span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;satellite&quot;</span><span class="p">:</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;hybrid&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;terrain&quot;</span><span class="p">:</span> <span class="s2">&quot;p&quot;</span><span class="p">}</span>
     <span class="n">map_type</span> <span class="o">=</span> <span class="n">map_types</span><span class="p">[</span><span class="n">map_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
@@ -1192,10 +1433,33 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
       <p>Add a layer control to the map.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for ipyleaflet.LayersControl.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>portgeo/portgeo.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_layer_control</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a layer control to the map.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a layer control to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        **kwargs: Additional arguments for ipyleaflet.LayersControl.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">layer_control</span> <span class="o">=</span> <span class="n">ipyleaflet</span><span class="o">.</span><span class="n">LayersControl</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="s2">&quot;topright&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">add_control</span><span class="p">(</span><span class="n">layer_control</span><span class="p">)</span>
@@ -1221,10 +1485,40 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
       <p>Add a shapefile layer to the map.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>data</code></td>
+        <td><code>str</code></td>
+        <td><p>Path to the shapefile.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for ipyleaflet.GeoJSON.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>portgeo/portgeo.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_shp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a shapefile layer to the map.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a shapefile layer to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (str): Path to the shapefile.</span>
+<span class="sd">        **kwargs: Additional arguments for ipyleaflet.GeoJSON.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
@@ -1254,10 +1548,60 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
 
       <p>Add a vector layer to the map.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>data</code></td>
+        <td><code>str or geopandas.GeoDataFrame or dict</code></td>
+        <td><p>Path to the vector file,
+GeoDataFrame, or GeoJSON data.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for ipyleaflet.GeoJSON.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Exceptions:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>ValueError</code></td>
+        <td><p>If the data type is unsupported.</p></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>portgeo/portgeo.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a vector layer to the map.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a vector layer to the map.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (str or geopandas.GeoDataFrame or dict): Path to the vector file,</span>
+<span class="sd">            GeoDataFrame, or GeoJSON data.</span>
+<span class="sd">        **kwargs: Additional arguments for ipyleaflet.GeoJSON.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the data type is unsupported.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
 
@@ -1367,7 +1711,7 @@ Map            (<span title="ipyleaflet.leaflet.Map">Map</span>)
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2024 - 2024 Noah Portman
+      Copyright &copy; 2025 - 2025 Noah Portman
     </div>
   
   

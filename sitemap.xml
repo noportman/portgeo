@@ -2,46 +2,50 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://noportman.github.io/portgeo/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
     </url>
     <url>
          <loc>https://noportman.github.io/portgeo/changelog/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
     </url>
     <url>
          <loc>https://noportman.github.io/portgeo/common/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
     </url>
     <url>
          <loc>https://noportman.github.io/portgeo/contributing/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
     </url>
     <url>
          <loc>https://noportman.github.io/portgeo/faq/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
+    </url>
+    <url>
+         <loc>https://noportman.github.io/portgeo/foliumap/</loc>
+         <lastmod>2025-05-08</lastmod>
     </url>
     <url>
          <loc>https://noportman.github.io/portgeo/installation/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
     </url>
     <url>
          <loc>https://noportman.github.io/portgeo/portgeo/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
     </url>
     <url>
          <loc>https://noportman.github.io/portgeo/usage/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
     </url>
     <url>
          <loc>https://noportman.github.io/portgeo/examples/folium/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
     </url>
     <url>
          <loc>https://noportman.github.io/portgeo/examples/intro/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
     </url>
     <url>
          <loc>https://noportman.github.io/portgeo/examples/map/</loc>
-         <lastmod>2025-05-07</lastmod>
+         <lastmod>2025-05-08</lastmod>
     </url>
 </urlset>
