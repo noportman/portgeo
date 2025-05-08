@@ -3,6 +3,7 @@ This module provides a custom Map class that extends folium.Map
 """
 
 import folium
+import folium.plugins
 
 
 class Map(folium.Map):
@@ -88,3 +89,29 @@ class Map(folium.Map):
             **kwargs: Additional arguments for folium.LayerControl.
         """
         folium.LayerControl().add_to(self)
+
+    def add_split_map(self, left="openstreetmap", right="cartodbpositron", **kwargs):
+        """Add a split map to the map.
+        Args:
+            data (str or dict): Path to the GeoJSON file or GeoJSON data.
+            **kwargs: Additional arguments for folium.SplitMap.
+        """
+
+        # map_types = {"roadmap": "r", "satellite": "s", "hybrid": "y", "terrain": "p"}
+        # map_type = map_types[map_type.lower()]
+
+        # url = f"https://mt1.google.com/maps/vt/lyrs={map_type}&x={{x}}&y={{y}}&z={{z}}"
+
+        # layer = ipyleaflet.TileLayer(url=url, name=f"Google {map_type.capitalize()}")
+        # self.add(layer)
+
+        layer_left = folium.TileLayer(left, **kwargs)
+        layer_right = folium.TileLayer(right, **kwargs)
+
+        sbs = folium.plugins.SideBySideLayers(
+            layer_left=layer_left, layer_right=layer_right
+        )
+
+        layer_left.add_to(self)
+        layer_right.add_to(self)
+        sbs.add_to(self)
