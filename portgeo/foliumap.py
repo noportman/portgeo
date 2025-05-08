@@ -180,8 +180,8 @@ class Map(folium.Map):
             columns=[join_col, column],
             key_on=key_on,
             fill_color=fill_color,
-            # fill_opacity=0.7,
-            # line_opacity=0.2,
+            fill_opacity=0.7,
+            line_opacity=0.2,
             legend_name=legend_name or column,
             **kwargs,
         ).add_to(self)
