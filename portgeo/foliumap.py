@@ -93,20 +93,22 @@ class Map(folium.Map):
     def add_split_map(self, left="openstreetmap", right="cartodbpositron", **kwargs):
         """Add a split map to the map.
         Args:
-            data (str or dict): Path to the GeoJSON file or GeoJSON data.
-            **kwargs: Additional arguments for folium.SplitMap.
+            left (str): Name of the left layer. Default is "openstreetmap".
+            right (str): Name of the right layer. Default is "cartodbpositron".
+            **kwargs: Additional arguments for folium.TileLayer.
         """
+        from localtileserver import get_folium_tile_layer
+        import os
 
-        # map_types = {"roadmap": "r", "satellite": "s", "hybrid": "y", "terrain": "p"}
-        # map_type = map_types[map_type.lower()]
+        if left.startswith("http") or os.path.exists(left):
+            layer_left = get_folium_tile_layer(left, overlay=True, **kwargs)
+        else:
+            layer_left = folium.TileLayer(left, overlay=True, **kwargs)
 
-        # url = f"https://mt1.google.com/maps/vt/lyrs={map_type}&x={{x}}&y={{y}}&z={{z}}"
-
-        # layer = ipyleaflet.TileLayer(url=url, name=f"Google {map_type.capitalize()}")
-        # self.add(layer)
-
-        layer_left = folium.TileLayer(left, **kwargs)
-        layer_right = folium.TileLayer(right, **kwargs)
+        if right.startswith("http") or os.path.exists(right):
+            layer_right = get_folium_tile_layer(right, overlay=True, **kwargs)
+        else:
+            layer_right = folium.TileLayer(right, overlay=True, **kwargs)
 
         sbs = folium.plugins.SideBySideLayers(
             layer_left=layer_left, layer_right=layer_right
