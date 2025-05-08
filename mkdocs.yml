@@ -83,6 +83,7 @@ nav:
         - examples/intro.ipynb
         - examples/map.ipynb
         - examples/folium.ipynb
+        - examples/raster.ipynb
     - API Reference:
           - portgeo module: portgeo.md
           - common module: common.md

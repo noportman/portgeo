@@ -26,9 +26,12 @@ class Map(ipyleaflet.Map):
         """Add a basemap to the map.
 
         Args:
-            basemap (str): Name of the basemap to add.
-                Options: 'OpenStreetMap', 'Stamen Terrain', 'Stamen Toner', 'Stamen Watercolor',
-                'CartoDB Positron', 'CartoDB Dark Matter', 'Esri WorldImagery', 'Google Maps'.
+            Options: 'OpenStreetMap.Mapnik', 'OpenStreetMap.France', 'OpenStreetMap.HOT', 'OpenTopoMap',
+                            'Gaode.Normal', 'Gaode.Satellite', 'Esri.WorldStreetMap', 'Esri.WorldTopoMap', 'Esri.WorldImagery',
+                            'Esri.NatGeoWorldMap', 'CartoDB.Positron', 'CartoDB.DarkMatter', 'NASAGIBS.ModisTerraTrueColorCR',
+                            'NASAGIBS.ModisTerraBands367CR', 'NASAGIBS.ModisTerraBands721CR', 'NASAGIBS.ModisAquaTrueColorCR',
+                            'NASAGIBS.ModisAquaBands721CR', 'NASAGIBS.ViirsTrueColorCR', 'NASAGIBS.ViirsEarthAtNight2012',
+                            'Strava.All', 'Strava.Ride', 'Strava.Run', 'Strava.Water', 'Strava.Winter'.
         """
 
         url = eval(f"ipyleaflet.basemaps.{basemap}").build_url()
@@ -146,3 +149,65 @@ class Map(ipyleaflet.Map):
 
         layer_control = ipyleaflet.LayersControl(position="topright", **kwargs)
         self.add_control(layer_control)
+
+    def add_raster(self, filepath, **kwargs):
+        """Add a raster layer to the map.
+        Args:
+            filepath (str): Path to the raster file.
+            **kwargs: Additional arguments for localtileserver.TileClient.
+        """
+
+        from localtileserver import TileClient, get_leaflet_tile_layer
+
+        client = TileClient(filepath)
+        tile_layer = get_leaflet_tile_layer(client, **kwargs)
+
+        self.add(tile_layer)
+        self.center = client.center()
+        self.zoom = client.default_zoom
+
+    def add_image(self, image, bounds=None, **kwargs):
+        """Add an image layer to the map.
+
+        Args:
+            image (str): Path to the image file.
+            bounds (list, optional): Bounds of the image in the format [[lat1, lon1], [lat2, lon2]].
+            **kwargs: Additional arguments for ipyleaflet.ImageOverlay.
+        """
+
+        if bounds is None:
+            bounds = [[-90, -180], [90, 180]]
+
+        layer = ipyleaflet.ImageOverlay(url=image, bounds=bounds, **kwargs)
+        self.add(layer)
+
+    def add_video(self, video, bounds=None, **kwargs):
+        """Add a video layer to the map.
+
+        Args:
+            video (str): Path to the video file.
+            bounds (list, optional): Bounds of the video in the format [[lat1, lon1], [lat2, lon2]].
+            **kwargs: Additional arguments for ipyleaflet.VideoOverlay.
+        """
+
+        if bounds is None:
+            bounds = [[-90, -180], [90, 180]]
+
+        layer = ipyleaflet.VideoOverlay(url=video, bounds=bounds, **kwargs)
+        self.add(layer)
+
+    def add_wms_layer(
+        self, url, layers, format="image/png", transparent=True, **kwargs
+    ):
+        """Add a WMS layer to the map.
+
+        Args:
+            url (str): URL of the WMS service.
+            layers (str): Comma-separated list of layer names.
+            **kwargs: Additional arguments for ipyleaflet.WMSLayer.
+        """
+
+        layer = ipyleaflet.WMSLayer(
+            url=url, layers=layers, format=format, transparent=transparent, **kwargs
+        )
+        self.add(layer)
