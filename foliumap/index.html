@@ -726,6 +726,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#portgeo.foliumap.Map.add_split_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_split_map()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#portgeo.foliumap.Map.add_vector" class="md-nav__link">
     <span class="md-ellipsis">
       add_vector()
@@ -831,6 +840,15 @@
   <a href="#portgeo.foliumap.Map.add_shp" class="md-nav__link">
     <span class="md-ellipsis">
       add_shp()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#portgeo.foliumap.Map.add_split_map" class="md-nav__link">
+    <span class="md-ellipsis">
+      add_split_map()
     </span>
   </a>
   
@@ -994,6 +1012,32 @@ Map            (<span title="folium.folium.Map">Map</span>)
 <span class="sd">            **kwargs: Additional arguments for folium.LayerControl.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_split_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="s2">&quot;openstreetmap&quot;</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s2">&quot;cartodbpositron&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a split map to the map.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            data (str or dict): Path to the GeoJSON file or GeoJSON data.</span>
+<span class="sd">            **kwargs: Additional arguments for folium.SplitMap.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># map_types = {&quot;roadmap&quot;: &quot;r&quot;, &quot;satellite&quot;: &quot;s&quot;, &quot;hybrid&quot;: &quot;y&quot;, &quot;terrain&quot;: &quot;p&quot;}</span>
+        <span class="c1"># map_type = map_types[map_type.lower()]</span>
+
+        <span class="c1"># url = f&quot;https://mt1.google.com/maps/vt/lyrs={map_type}&amp;x={{x}}&amp;y={{y}}&amp;z={{z}}&quot;</span>
+
+        <span class="c1"># layer = ipyleaflet.TileLayer(url=url, name=f&quot;Google {map_type.capitalize()}&quot;)</span>
+        <span class="c1"># self.add(layer)</span>
+
+        <span class="n">layer_left</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">layer_right</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">sbs</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">SideBySideLayers</span><span class="p">(</span>
+            <span class="n">layer_left</span><span class="o">=</span><span class="n">layer_left</span><span class="p">,</span> <span class="n">layer_right</span><span class="o">=</span><span class="n">layer_right</span>
+        <span class="p">)</span>
+
+        <span class="n">layer_left</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">layer_right</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">sbs</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
 
@@ -1242,6 +1286,80 @@ Map            (<span title="folium.folium.Map">Map</span>)
     <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
     <span class="n">geojson</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">__geo_interface__</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">add_geojson</span><span class="p">(</span><span class="n">geojson</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="portgeo.foliumap.Map.add_split_map" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">add_split_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="s1">&#39;openstreetmap&#39;</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s1">&#39;cartodbpositron&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+<a href="#portgeo.foliumap.Map.add_split_map" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Add a split map to the map.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>data</code></td>
+        <td><code>str or dict</code></td>
+        <td><p>Path to the GeoJSON file or GeoJSON data.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>**kwargs</code></td>
+        <td></td>
+        <td><p>Additional arguments for folium.SplitMap.</p></td>
+        <td><code>{}</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>portgeo/foliumap.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_split_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="s2">&quot;openstreetmap&quot;</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="s2">&quot;cartodbpositron&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a split map to the map.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        data (str or dict): Path to the GeoJSON file or GeoJSON data.</span>
+<span class="sd">        **kwargs: Additional arguments for folium.SplitMap.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># map_types = {&quot;roadmap&quot;: &quot;r&quot;, &quot;satellite&quot;: &quot;s&quot;, &quot;hybrid&quot;: &quot;y&quot;, &quot;terrain&quot;: &quot;p&quot;}</span>
+    <span class="c1"># map_type = map_types[map_type.lower()]</span>
+
+    <span class="c1"># url = f&quot;https://mt1.google.com/maps/vt/lyrs={map_type}&amp;x={{x}}&amp;y={{y}}&amp;z={{z}}&quot;</span>
+
+    <span class="c1"># layer = ipyleaflet.TileLayer(url=url, name=f&quot;Google {map_type.capitalize()}&quot;)</span>
+    <span class="c1"># self.add(layer)</span>
+
+    <span class="n">layer_left</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">layer_right</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">TileLayer</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">sbs</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">SideBySideLayers</span><span class="p">(</span>
+        <span class="n">layer_left</span><span class="o">=</span><span class="n">layer_left</span><span class="p">,</span> <span class="n">layer_right</span><span class="o">=</span><span class="n">layer_right</span>
+    <span class="p">)</span>
+
+    <span class="n">layer_left</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">layer_right</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">sbs</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
