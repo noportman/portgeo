@@ -1,3 +1,7 @@
+"""
+This module provides a custom Map class that extends folium.Map
+"""
+
 import folium
 
 

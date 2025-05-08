@@ -4,7 +4,7 @@ site_author: noportman
 site_url: https://noportman.github.io/portgeo
 repo_url: https://github.com/noportman/portgeo
 
-copyright: "Copyright &copy; 2024 - 2024 Noah Portman"
+copyright: "Copyright &copy; 2025 - 2025 Noah Portman"
 
 theme:
     palette:
@@ -86,3 +86,4 @@ nav:
     - API Reference:
           - portgeo module: portgeo.md
           - common module: common.md
+          - folium module: foliumap.md
