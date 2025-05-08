@@ -86,4 +86,4 @@ nav:
     - API Reference:
           - portgeo module: portgeo.md
           - common module: common.md
-          - folium module: foliumap.md
+          - foliumap module: foliumap.md
