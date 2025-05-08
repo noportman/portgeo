@@ -5,7 +5,15 @@ import ipyleaflet
 
 
 class Map(ipyleaflet.Map):
-    """Custom Map class to handle portgeos."""
+    """Custom Map class to handle portgeos.
+
+    Args:
+        center (list): Center of the map.
+        zoom (int): Zoom level of the map.
+        scroll_wheel_zoom (bool): Enable scroll wheel zoom.
+        height (str): Height of the map.
+        **kwargs: Additional arguments for ipyleaflet.Map.
+    """
 
     def __init__(
         self, center=[20, 0], zoom=2, scroll_wheel_zoom=True, height="400px", **kwargs
@@ -15,14 +23,25 @@ class Map(ipyleaflet.Map):
         self.layout.height = height
 
     def add_basemap(self, basemap="OpenStreetMap"):
-        """Add a basemap to the map."""
+        """Add a basemap to the map.
+
+        Args:
+            basemap (str): Name of the basemap to add.
+                Options: 'OpenStreetMap', 'Stamen Terrain', 'Stamen Toner', 'Stamen Watercolor',
+                'CartoDB Positron', 'CartoDB Dark Matter', 'Esri WorldImagery', 'Google Maps'.
+        """
 
         url = eval(f"ipyleaflet.basemaps.{basemap}").build_url()
         layer = ipyleaflet.TileLayer(url=url, name=basemap)
         self.add(layer)
 
     def add_google_map(self, map_type="roadmap"):
-        """Add a Google Map to the map."""
+        """Add a Google Map to the map.
+
+        Args:
+            map_type (str): Type of Google Map to add.
+                Options: 'roadmap', 'satellite', 'hybrid', 'terrain'.
+        """
 
         map_types = {"roadmap": "r", "satellite": "s", "hybrid": "y", "terrain": "p"}
         map_type = map_types[map_type.lower()]
@@ -32,7 +51,14 @@ class Map(ipyleaflet.Map):
         self.add(layer)
 
     def add_geojson(self, data, zoom_to_layer=True, hover_style=None, **kwargs):
-        """Add a GeoJSON layer to the map."""
+        """Add a GeoJSON layer to the map.
+
+        Args:
+            data (str or dict): Path to the GeoJSON file or GeoJSON data.
+            zoom_to_layer (bool): Whether to zoom to the layer bounds.
+            hover_style (dict): Style for hover effect.
+            **kwargs: Additional arguments for ipyleaflet.GeoJSON.
+        """
 
         import geopandas as gpd
 
@@ -59,7 +85,12 @@ class Map(ipyleaflet.Map):
             self.fit_bounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]])
 
     def add_shp(self, data, **kwargs):
-        """Add a shapefile layer to the map."""
+        """Add a shapefile layer to the map.
+
+        Args:
+            data (str): Path to the shapefile.
+            **kwargs: Additional arguments for ipyleaflet.GeoJSON.
+        """
 
         import geopandas as gpd
 
@@ -69,14 +100,28 @@ class Map(ipyleaflet.Map):
         self.add_geojson(geojson, **kwargs)
 
     def add_gdf(self, gdf, **kwargs):
-        """Add a GeoDataFrame layer to the map."""
+        """Add a GeoDataFrame layer to the map.
+
+        Args:
+            gdf (GeoDataFrame): GeoDataFrame to add.
+            **kwargs: Additional arguments for ipyleaflet.GeoJSON.
+        """
 
         gdf = gdf.to_crs(epsg=4326)
         geojson = gdf.__geo_interface__
         self.add_geojson(geojson, **kwargs)
 
     def add_vector(self, data, **kwargs):
-        """Add a vector layer to the map."""
+        """Add a vector layer to the map.
+
+        Args:
+            data (str or geopandas.GeoDataFrame or dict): Path to the vector file,
+                GeoDataFrame, or GeoJSON data.
+            **kwargs: Additional arguments for ipyleaflet.GeoJSON.
+
+        Raises:
+            ValueError: If the data type is unsupported.
+        """
 
         import geopandas as gpd
 
@@ -93,7 +138,11 @@ class Map(ipyleaflet.Map):
             )
 
     def add_layer_control(self, **kwargs):
-        """Add a layer control to the map."""
+        """Add a layer control to the map.
+
+        Args:
+            **kwargs: Additional arguments for ipyleaflet.LayersControl.
+        """
 
         layer_control = ipyleaflet.LayersControl(position="topright", **kwargs)
         self.add_control(layer_control)
