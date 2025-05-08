@@ -117,3 +117,71 @@ class Map(folium.Map):
         layer_left.add_to(self)
         layer_right.add_to(self)
         sbs.add_to(self)
+
+    def add_choropleth(
+        self,
+        gdf,
+        column,
+        join_col,
+        key_on="feature.properties.id",
+        fill_color="YlGn",
+        legend_name=None,
+        **kwargs,
+    ):
+        """Add a Choropleth layer to the map.
+
+        Args:
+            gdf (GeoDataFrame or str): GeoDataFrame or path to file with geometries and data.
+            column (str): Column in the GeoDataFrame to color by.
+            join_col (str): Column to join GeoJSON and data on.
+            key_on (str): GeoJSON property key to match join_col (e.g., 'feature.properties.<name>').
+            fill_color (str): Color scheme for the choropleth.
+            legend_name (str): Name for the legend.
+            **kwargs: Additional arguments for folium.Choropleth.
+        """
+        import geopandas as gpd
+        import json
+
+        # Case 1: file path
+        if isinstance(gdf, str):
+            gdf = gpd.read_file(gdf)
+            gdf = gdf.to_crs(epsg=4326)
+            geojson = json.loads(gdf.to_json())
+
+        # Case 2: GeoJSON dictionary
+        elif isinstance(gdf, dict):
+            if "features" not in gdf:
+                raise ValueError("GeoJSON dict must have a 'features' key.")
+            try:
+                gdf = gpd.GeoDataFrame.from_features(gdf["features"])
+                gdf = gdf.set_geometry("geometry").set_crs(epsg=4326)
+                geojson = gdf.__geo_interface__  # or json.loads(gdf.to_json())
+            except Exception as e:
+                raise ValueError(f"Failed to parse GeoJSON dictionary: {e}")
+
+        # Case 3: GeoDataFrame
+        elif isinstance(gdf, gpd.GeoDataFrame):
+            gdf = gdf.to_crs(epsg=4326)
+            geojson = json.loads(gdf.to_json())
+
+        else:
+            raise TypeError(
+                "gdf must be a GeoDataFrame, file path, or GeoJSON dictionary."
+            )
+
+        if join_col not in gdf.columns or column not in gdf.columns:
+            raise ValueError(
+                f"'{join_col}' and/or '{column}' not found in GeoDataFrame columns: {list(gdf.columns)}"
+            )
+
+        folium.Choropleth(
+            geo_data=geojson,
+            data=gdf[[join_col, column]],
+            columns=[join_col, column],
+            key_on=key_on,
+            fill_color=fill_color,
+            fill_opacity=0.7,
+            line_opacity=0.2,
+            legend_name=legend_name or column,
+            **kwargs,
+        ).add_to(self)
