@@ -999,24 +999,72 @@ Map            (<span title="folium.folium.Map">Map</span>)
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="n">zoom</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a GeoJSON layer to the map.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">tooltip_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tooltip_aliases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">style_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a GeoJSON layer to the map with optional tooltip and highlight on hover.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            data (str or dict): Path to the GeoJSON file or GeoJSON data.</span>
+<span class="sd">            tooltip_fields (list): Fields to include in the tooltip.</span>
+<span class="sd">            tooltip_aliases (list): Optional aliases for tooltip fields.</span>
+<span class="sd">            highlight (bool): Whether to highlight geometry on hover.</span>
+<span class="sd">            style_function (function): Optional base style function.</span>
 <span class="sd">            **kwargs: Additional arguments for folium.GeoJson.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
 
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If data is not a string or dictionary.</span>
+<span class="sd">            ValueError: If data is not a valid GeoJSON.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">folium</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
             <span class="n">geojson</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">__geo_interface__</span>
-
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">geojson</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Data must be a file path or GeoJSON dictionary.&quot;</span><span class="p">)</span>
 
-        <span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">geojson</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c1"># Default style (optional)</span>
+        <span class="n">default_style</span> <span class="o">=</span> <span class="n">style_function</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;fillOpacity&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;gray&quot;</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Optional highlight effect on hover</span>
+        <span class="n">highlight_fn</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="s2">&quot;fillOpacity&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">highlight</span>
+            <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Tooltip configuration</span>
+        <span class="n">tooltip</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">GeoJsonTooltip</span><span class="p">(</span>
+                <span class="n">fields</span><span class="o">=</span><span class="n">tooltip_fields</span><span class="p">,</span>
+                <span class="n">aliases</span><span class="o">=</span><span class="n">tooltip_aliases</span> <span class="ow">or</span> <span class="n">tooltip_fields</span><span class="p">,</span>
+                <span class="n">localize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">sticky</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">tooltip_fields</span>
+            <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+
+        <span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">geojson</span><span class="p">,</span>
+            <span class="n">style_function</span><span class="o">=</span><span class="n">default_style</span><span class="p">,</span>
+            <span class="n">highlight_function</span><span class="o">=</span><span class="n">highlight_fn</span><span class="p">,</span>
+            <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_shp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a shapefile layer to the map.</span>
@@ -1110,9 +1158,11 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <span class="n">gdf</span><span class="p">,</span>
         <span class="n">column</span><span class="p">,</span>
         <span class="n">join_col</span><span class="p">,</span>
-        <span class="n">key_on</span><span class="o">=</span><span class="s2">&quot;feature.properties.id&quot;</span><span class="p">,</span>
+        <span class="n">key_on</span><span class="o">=</span><span class="s2">&quot;feature.properties.name&quot;</span><span class="p">,</span>
         <span class="n">fill_color</span><span class="o">=</span><span class="s2">&quot;YlGn&quot;</span><span class="p">,</span>
         <span class="n">legend_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tooltip_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tooltip_aliases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a Choropleth layer to the map.</span>
@@ -1172,6 +1222,23 @@ Map            (<span title="folium.folium.Map">Map</span>)
             <span class="n">legend_name</span><span class="o">=</span><span class="n">legend_name</span> <span class="ow">or</span> <span class="n">column</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Add tooltips on hover (optional)</span>
+        <span class="k">if</span> <span class="n">tooltip_fields</span><span class="p">:</span>
+            <span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span>
+                <span class="n">geojson</span><span class="p">,</span>
+                <span class="n">tooltip</span><span class="o">=</span><span class="n">folium</span><span class="o">.</span><span class="n">GeoJsonTooltip</span><span class="p">(</span>
+                    <span class="n">fields</span><span class="o">=</span><span class="n">tooltip_fields</span><span class="p">,</span>
+                    <span class="n">aliases</span><span class="o">=</span><span class="n">tooltip_aliases</span> <span class="ow">or</span> <span class="n">tooltip_fields</span><span class="p">,</span>
+                    <span class="n">localize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">sticky</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">style_function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;fillOpacity&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="p">},</span>  <span class="c1"># transparent overlay</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
 
@@ -1193,7 +1260,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
 
 
 <h3 id="portgeo.foliumap.Map.add_choropleth" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">add_choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">join_col</span><span class="p">,</span> <span class="n">key_on</span><span class="o">=</span><span class="s1">&#39;feature.properties.id&#39;</span><span class="p">,</span> <span class="n">fill_color</span><span class="o">=</span><span class="s1">&#39;YlGn&#39;</span><span class="p">,</span> <span class="n">legend_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">add_choropleth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">join_col</span><span class="p">,</span> <span class="n">key_on</span><span class="o">=</span><span class="s1">&#39;feature.properties.name&#39;</span><span class="p">,</span> <span class="n">fill_color</span><span class="o">=</span><span class="s1">&#39;YlGn&#39;</span><span class="p">,</span> <span class="n">legend_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tooltip_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tooltip_aliases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 <a href="#portgeo.foliumap.Map.add_choropleth" class="headerlink" title="Permanent link">&para;</a></h3>
@@ -1235,7 +1302,7 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <td><code>key_on</code></td>
         <td><code>str</code></td>
         <td><p>GeoJSON property key to match join_col (e.g., 'feature.properties.<name>').</p></td>
-        <td><code>&#39;feature.properties.id&#39;</code></td>
+        <td><code>&#39;feature.properties.name&#39;</code></td>
       </tr>
       <tr>
         <td><code>fill_color</code></td>
@@ -1264,9 +1331,11 @@ Map            (<span title="folium.folium.Map">Map</span>)
     <span class="n">gdf</span><span class="p">,</span>
     <span class="n">column</span><span class="p">,</span>
     <span class="n">join_col</span><span class="p">,</span>
-    <span class="n">key_on</span><span class="o">=</span><span class="s2">&quot;feature.properties.id&quot;</span><span class="p">,</span>
+    <span class="n">key_on</span><span class="o">=</span><span class="s2">&quot;feature.properties.name&quot;</span><span class="p">,</span>
     <span class="n">fill_color</span><span class="o">=</span><span class="s2">&quot;YlGn&quot;</span><span class="p">,</span>
     <span class="n">legend_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tooltip_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tooltip_aliases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a Choropleth layer to the map.</span>
@@ -1326,6 +1395,23 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <span class="n">legend_name</span><span class="o">=</span><span class="n">legend_name</span> <span class="ow">or</span> <span class="n">column</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c1"># Add tooltips on hover (optional)</span>
+    <span class="k">if</span> <span class="n">tooltip_fields</span><span class="p">:</span>
+        <span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span>
+            <span class="n">geojson</span><span class="p">,</span>
+            <span class="n">tooltip</span><span class="o">=</span><span class="n">folium</span><span class="o">.</span><span class="n">GeoJsonTooltip</span><span class="p">(</span>
+                <span class="n">fields</span><span class="o">=</span><span class="n">tooltip_fields</span><span class="p">,</span>
+                <span class="n">aliases</span><span class="o">=</span><span class="n">tooltip_aliases</span> <span class="ow">or</span> <span class="n">tooltip_fields</span><span class="p">,</span>
+                <span class="n">localize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">sticky</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">style_function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;fillOpacity&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="p">},</span>  <span class="c1"># transparent overlay</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1399,14 +1485,14 @@ Map            (<span title="folium.folium.Map">Map</span>)
 
 
 <h3 id="portgeo.foliumap.Map.add_geojson" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">tooltip_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tooltip_aliases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">style_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
 
 <a href="#portgeo.foliumap.Map.add_geojson" class="headerlink" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
-      <p>Add a GeoJSON layer to the map.</p>
+      <p>Add a GeoJSON layer to the map with optional tooltip and highlight on hover.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -1426,6 +1512,30 @@ Map            (<span title="folium.folium.Map">Map</span>)
         <td><em>required</em></td>
       </tr>
       <tr>
+        <td><code>tooltip_fields</code></td>
+        <td><code>list</code></td>
+        <td><p>Fields to include in the tooltip.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>tooltip_aliases</code></td>
+        <td><code>list</code></td>
+        <td><p>Optional aliases for tooltip fields.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>highlight</code></td>
+        <td><code>bool</code></td>
+        <td><p>Whether to highlight geometry on hover.</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>style_function</code></td>
+        <td><code>function</code></td>
+        <td><p>Optional base style function.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
         <td><code>**kwargs</code></td>
         <td></td>
         <td><p>Additional arguments for folium.GeoJson.</p></td>
@@ -1433,26 +1543,93 @@ Map            (<span title="folium.folium.Map">Map</span>)
       </tr>
   </tbody>
 </table>
+<p><strong>Exceptions:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>TypeError</code></td>
+        <td><p>If data is not a string or dictionary.</p></td>
+      </tr>
+      <tr>
+        <td><code>ValueError</code></td>
+        <td><p>If data is not a valid GeoJSON.</p></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>portgeo/foliumap.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a GeoJSON layer to the map.</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_geojson</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">tooltip_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tooltip_aliases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">style_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a GeoJSON layer to the map with optional tooltip and highlight on hover.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (str or dict): Path to the GeoJSON file or GeoJSON data.</span>
+<span class="sd">        tooltip_fields (list): Fields to include in the tooltip.</span>
+<span class="sd">        tooltip_aliases (list): Optional aliases for tooltip fields.</span>
+<span class="sd">        highlight (bool): Whether to highlight geometry on hover.</span>
+<span class="sd">        style_function (function): Optional base style function.</span>
 <span class="sd">        **kwargs: Additional arguments for folium.GeoJson.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: If data is not a string or dictionary.</span>
+<span class="sd">        ValueError: If data is not a valid GeoJSON.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">folium</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">geojson</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">__geo_interface__</span>
-
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="n">geojson</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Data must be a file path or GeoJSON dictionary.&quot;</span><span class="p">)</span>
 
-    <span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">geojson</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="c1"># Default style (optional)</span>
+    <span class="n">default_style</span> <span class="o">=</span> <span class="n">style_function</span> <span class="ow">or</span> <span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;fillOpacity&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;gray&quot;</span><span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Optional highlight effect on hover</span>
+    <span class="n">highlight_fn</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="s2">&quot;fillOpacity&quot;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">highlight</span>
+        <span class="k">else</span> <span class="kc">None</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Tooltip configuration</span>
+    <span class="n">tooltip</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">folium</span><span class="o">.</span><span class="n">GeoJsonTooltip</span><span class="p">(</span>
+            <span class="n">fields</span><span class="o">=</span><span class="n">tooltip_fields</span><span class="p">,</span>
+            <span class="n">aliases</span><span class="o">=</span><span class="n">tooltip_aliases</span> <span class="ow">or</span> <span class="n">tooltip_fields</span><span class="p">,</span>
+            <span class="n">localize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">sticky</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">tooltip_fields</span>
+        <span class="k">else</span> <span class="kc">None</span>
+    <span class="p">)</span>
+
+    <span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">geojson</span><span class="p">,</span>
+        <span class="n">style_function</span><span class="o">=</span><span class="n">default_style</span><span class="p">,</span>
+        <span class="n">highlight_function</span><span class="o">=</span><span class="n">highlight_fn</span><span class="p">,</span>
+        <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
