@@ -23,5 +23,3 @@
 import portgeo
 import os
 ```
-
-I like to drink :coffee: after I play :tennis:
