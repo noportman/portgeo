@@ -12,24 +12,72 @@ class Map(folium.Map):
     def __init__(self, center=[0, 0], zoom=2, **kwargs):
         super().__init__(location=center, zoom_start=zoom, **kwargs)
 
-    def add_geojson(self, data, **kwargs):
-        """Add a GeoJSON layer to the map.
+    def add_geojson(
+        self,
+        data,
+        tooltip_fields=None,
+        tooltip_aliases=None,
+        highlight=True,
+        style_function=None,
+        **kwargs,
+    ):
+        """Add a GeoJSON layer to the map with optional tooltip and highlight on hover.
 
         Args:
             data (str or dict): Path to the GeoJSON file or GeoJSON data.
+            tooltip_fields (list): Fields to include in the tooltip.
+            tooltip_aliases (list): Optional aliases for tooltip fields.
+            highlight (bool): Whether to highlight geometry on hover.
+            style_function (function): Optional base style function.
             **kwargs: Additional arguments for folium.GeoJson.
-        """
 
+        Raises:
+            TypeError: If data is not a string or dictionary.
+            ValueError: If data is not a valid GeoJSON.
+        """
         import geopandas as gpd
+        import folium
 
         if isinstance(data, str):
             gdf = gpd.read_file(data)
             geojson = gdf.__geo_interface__
-
         elif isinstance(data, dict):
             geojson = data
+        else:
+            raise TypeError("Data must be a file path or GeoJSON dictionary.")
 
-        folium.GeoJson(data=geojson, **kwargs).add_to(self)
+        # Default style (optional)
+        default_style = style_function or (
+            lambda f: {"fillOpacity": 0.5, "weight": 1, "color": "gray"}
+        )
+
+        # Optional highlight effect on hover
+        highlight_fn = (
+            (lambda f: {"weight": 3, "color": "yellow", "fillOpacity": 0.2})
+            if highlight
+            else None
+        )
+
+        # Tooltip configuration
+        tooltip = (
+            folium.GeoJsonTooltip(
+                fields=tooltip_fields,
+                aliases=tooltip_aliases or tooltip_fields,
+                localize=True,
+                sticky=True,
+                labels=True,
+            )
+            if tooltip_fields
+            else None
+        )
+
+        folium.GeoJson(
+            data=geojson,
+            style_function=default_style,
+            highlight_function=highlight_fn,
+            tooltip=tooltip,
+            **kwargs,
+        ).add_to(self)
 
     def add_shp(self, data, **kwargs):
         """Add a shapefile layer to the map.
@@ -123,9 +171,11 @@ class Map(folium.Map):
         gdf,
         column,
         join_col,
-        key_on="feature.properties.id",
+        key_on="feature.properties.name",
         fill_color="YlGn",
         legend_name=None,
+        tooltip_fields=None,
+        tooltip_aliases=None,
         **kwargs,
     ):
         """Add a Choropleth layer to the map.
@@ -185,3 +235,20 @@ class Map(folium.Map):
             legend_name=legend_name or column,
             **kwargs,
         ).add_to(self)
+
+        # Add tooltips on hover (optional)
+        if tooltip_fields:
+            folium.GeoJson(
+                geojson,
+                tooltip=folium.GeoJsonTooltip(
+                    fields=tooltip_fields,
+                    aliases=tooltip_aliases or tooltip_fields,
+                    localize=True,
+                    sticky=True,
+                    labels=True,
+                ),
+                style_function=lambda x: {
+                    "fillOpacity": 0,
+                    "weight": 0,
+                },  # transparent overlay
+            ).add_to(self)
