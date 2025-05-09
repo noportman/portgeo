@@ -4,7 +4,7 @@ site_author: noportman
 site_url: https://noportman.github.io/portgeo
 repo_url: https://github.com/noportman/portgeo
 
-copyright: "Copyright &copy; 2025 - 2025 Noah Portman"
+copyright: "Copyright &copy; 2025 Noah Portman"
 
 theme:
     palette:
@@ -12,13 +12,13 @@ theme:
           #   primary: blue
           #   accent: indigo
           toggle:
-              icon: material/toggle-switch-off-outline
+              icon: material/weather-night
               name: Switch to dark mode
         - scheme: slate
           primary: indigo
           accent: indigo
           toggle:
-              icon: material/toggle-switch
+              icon: material/weather-sunny
               name: Switch to light mode
     name: material
     icon:
@@ -54,6 +54,7 @@ plugins:
 
 markdown_extensions:
     - admonition
+    - pymdownx.details
     - abbr
     - attr_list
     - def_list
@@ -63,8 +64,9 @@ markdown_extensions:
     - pymdownx.superfences
     - pymdownx.highlight:
           linenums: true
-    - toc:
-          permalink: true
+    # - pymdownx.emoji:
+    #     emoji_index: !!python/name:material.extensions.emoji.twemoji
+    #     emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 # extra:
 #     analytics:
