@@ -1,0 +1,23 @@
+/* Remove bullets from navigation list items */
+.md-nav__item {
+  list-style: none;
+}
+
+/* Optional: remove padding/margin if needed */
+.md-nav__item > a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+/* Increase font size of navigation items */
+.md-nav__link {
+  font-size: 0.75rem; /* Try 1.1rem or 1.2rem for larger text */
+}
+
+/* Optional: Increase icon size slightly if needed */
+.md-nav__link svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
