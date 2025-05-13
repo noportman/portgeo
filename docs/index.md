@@ -4,6 +4,8 @@
 [![image](https://img.shields.io/pypi/v/portgeo.svg)](https://pypi.python.org/pypi/portgeo)
 
 
+![image](assets/images/logo.png)
+
 **A python package for geospatial applications**
 
 ??? warning "Under Development"
