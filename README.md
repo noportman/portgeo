@@ -1,6 +1,6 @@
 # portgeo
 
-![image](assets/images/logo.png)
+![image](docs/assets/images/logo.png)
 
 **A python package for geospatial applications**
 
