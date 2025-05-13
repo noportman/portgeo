@@ -34,8 +34,8 @@ theme:
         - search.share
     custom_dir: "docs/overrides"
     font:
-        text: Google Sans
-        code: Regular
+        text: Roboto
+        code: Fira Code
 
 plugins:
     - search
