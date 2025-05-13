@@ -1,0 +1,54 @@
+{% for nav_item in nav %}
+  {% set is_active = nav_item.active %}
+  <li class="md-nav__item{% if is_active %} md-nav__item--active{% endif %}">
+    <a href="{{ nav_item.url | url }}" class="md-nav__link">
+      {% if nav_item.title == "Home" %}
+        <!-- Home icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 576 512" style="margin-right: 6px;">
+          <path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
+        </svg>
+      {% elif nav_item.title == "Installation" %}
+        <!-- Download box icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" style="margin-right: 6px;">
+          <path d="M480 160H320V48c0-26.5-21.5-48-48-48s-48 21.5-48 48v112H32v272h448V160z"/>
+        </svg>
+      {% elif nav_item.title == "Usage" %}
+        <!-- Play icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" style="margin-right: 6px;">
+          <path d="M96 52v408l320-204L96 52z"/>
+        </svg>
+      {% elif nav_item.title == "Contributing" %}
+        <!-- Helping hands icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 640 512" style="margin-right: 6px;">
+          <path d="M488.5 189.5l-74.4 62.5H416l-64-32-64 32h-33.3l-74.4-62.5C122.5 207.4 96 237.5 96 272v16c0 17.7 14.3 32 32 32h32v112H64c-17.7 0-32-14.3-32-32V272c0-80.4 64.6-146.4 144-151.4V112c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v8.6c79.4 5 144 71 144 151.4v128c0 17.7-14.3 32-32 32h-96V320h32c17.7 0 32-14.3 32-32v-16c0-34.5-26.5-64.6-63.5-82.5z"/>
+        </svg>
+      {% elif nav_item.title == "FAQ" %}
+        <!-- Question-circle icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" style="margin-right: 6px;">
+          <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm0 110c31.3 0 57.6 22.2 57.6 52.7 0 22.8-12.4 34.7-31.2 48-17.8 12.8-24.8 20.9-24.8 39.3V272c0 8.8-7.2 16-16 16s-16-7.2-16-16v-14.9c0-29.7 15.5-47.3 35.1-61.4 15.3-11 20.9-17.2 20.9-28.2 0-11.1-8.9-20.7-25.6-20.7-18.4 0-28.2 10.7-35 20.8-5 7.2-14.7 8.9-21.7 3.9s-8.9-14.7-3.9-21.7C203.5 135.7 226.5 118 256 118zm0 246c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32z"/>
+        </svg>
+      {% elif nav_item.title == "Changelog" %}
+        <!-- Clock rewind/history icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512" style="margin-right: 6px;">
+          <path d="M256 8C119 8 8 119 8 256H0l48 48 48-48H64C64 137.9 137.9 64 256 64s192 73.9 192 192-73.9 192-192 192c-51.6 0-98.5-20.6-133.1-54.1l-45.2 45.2C131.5 487.1 190.9 512 256 512c137 0 248-111 248-248S393 8 256 8zm8 120h-48v144h144v-48H264V128z"/>
+        </svg>
+      {% elif nav_item.title == "Report Issues" %}
+        <!-- Triangle warning icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 576 512" style="margin-right: 6px;">
+          <path d="M569.5 440.6 327.4 40.6C316.6 21.6 298.2 8 278.3 8s-38.3 13.6-49.1 32.6L6.5 440.6C-4.4 459.8-.6 483 16.6 496.1c17.2 13.1 41.4 8.4 54.5-8.8L288 96l217 391.3c13.1 17.2 37.3 21.9 54.5 8.8 17.2-13.1 21-36.3 10-55.5z"/>
+        </svg>
+      {% elif nav_item.title == "Examples" %}
+        <!-- Code example icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 640 512" style="margin-right: 6px;">
+          <path d="M414.8 97.9 192 400.1l-35.6-26.8 222.8-302.2zM80 96 16 160l64 64 32-32-32-32 32-32zm480 0-32 32 32 32-32 32 64 64 64-64-64-64z"/>
+        </svg>
+      {% elif nav_item.title == "API Reference" %}
+        <!-- File-code icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 384 512" style="margin-right: 6px;">
+          <path d="M369.9 97.9 286.1 14.1C277.5 5.5 266.2 0 254.4 0H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V129.6c0-11.8-5.5-23.1-14.1-31.7zM256 51.6 332.4 128H256V51.6zM96 208h192v32H96v-32zm0 64h192v32H96v-32zm0 64h128v32H96v-32z"/>
+        </svg>
+      {% endif %}
+      {{ nav_item.title }}
+    </a>
+  </li>
+{% endfor %}

@@ -28,7 +28,8 @@ theme:
     features:
         - navigation.instant
         - navigation.tracking
-        - navigation.top
+        # - navigation.sections
+        # - navigation.expand
         - search.highlight
         - search.share
     custom_dir: "docs/overrides"
@@ -59,7 +60,6 @@ markdown_extensions:
     - attr_list
     - def_list
     - footnotes
-    - meta
     - md_in_html
     - pymdownx.superfences
     - pymdownx.highlight:
@@ -72,6 +72,9 @@ markdown_extensions:
 #     analytics:
 #         provider: google
 #         property: UA-XXXXXXXXX-X
+
+# extra_css:
+#   - assets/stylesheets/extra.css
 
 nav:
     - Home: index.md
@@ -88,6 +91,6 @@ nav:
         - examples/raster.ipynb
         - examples/split_map.ipynb
     - API Reference:
-          - portgeo module: portgeo.md
-          - common module: common.md
-          - foliumap module: foliumap.md
+        - portgeo module: portgeo.md
+        - common module: common.md
+        - foliumap module: foliumap.md
