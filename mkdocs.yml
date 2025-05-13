@@ -9,16 +9,16 @@ copyright: "Copyright &copy; 2025 Noah Portman"
 theme:
     palette:
         - scheme: default
-          #   primary: blue
-          #   accent: indigo
-          toggle:
-              icon: material/weather-night
-              name: Switch to dark mode
-        - scheme: slate
-          primary: indigo
+          primary: light blue
           accent: indigo
           toggle:
-              icon: material/weather-sunny
+              icon: material/toggle-switch
+              name: Switch to dark mode
+        - scheme: slate
+          primary: black
+          accent: indigo
+          toggle:
+              icon: material/toggle-switch-off-outline
               name: Switch to light mode
     name: material
     icon:
