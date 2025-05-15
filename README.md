@@ -7,7 +7,7 @@
 [![image](https://img.shields.io/pypi/v/portgeo.svg)](https://pypi.python.org/pypi/portgeo)
 
 -   Free software: MIT License
--   Documentation: https://noportman.github.io/portgeo
+-   Documentation: https://snowport.github.io/portgeo
 
 
 ## Features
