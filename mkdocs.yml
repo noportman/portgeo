@@ -1,8 +1,8 @@
 site_name: portgeo
 site_description: A python package for geospatial applications
 site_author: noportman
-site_url: https://noportman.github.io/portgeo
-repo_url: https://github.com/noportman/portgeo
+site_url: https://snowport.github.io/portgeo
+repo_url: https://github.com/snowport/portgeo
 
 copyright: "Copyright &copy; 2025 Noah Portman"
 
@@ -83,7 +83,7 @@ nav:
     - Contributing: contributing.md
     - FAQ: faq.md
     - Changelog: changelog.md
-    - Report Issues: https://github.com/noportman/portgeo/issues
+    - Report Issues: https://github.com/snowport/portgeo/issues
     - Examples:
         - examples/intro.ipynb
         - examples/map.ipynb
