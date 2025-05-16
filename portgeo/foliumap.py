@@ -114,8 +114,6 @@ class Map(folium.Map):
                 GeoDataFrame, or GeoJSON data.
             **kwargs: Additional arguments for folium.GeoJson.
         """
-        import folium
-
         import geopandas as gpd
 
         if isinstance(data, str):
@@ -137,6 +135,7 @@ class Map(folium.Map):
             **kwargs: Additional arguments for folium.LayerControl.
         """
         folium.LayerControl().add_to(self)
+        folium.plugins.Fullscreen().add_to(self)
 
     def add_split_map(self, left="openstreetmap", right="cartodbpositron", **kwargs):
         """Add a split map to the map.
