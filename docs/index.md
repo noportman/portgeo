@@ -10,7 +10,7 @@
     This package is currently under active development. Features may change and instability is expected.
 
 -   Free software: MIT License
--   Documentation: <https://noportman.github.io/portgeo>
+-   Documentation: <https://snowport.github.io/portgeo>
 
 ## Features
 
