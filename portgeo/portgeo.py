@@ -3,6 +3,8 @@
 import os
 import ipyleaflet
 import ipywidgets as widgets
+from IPython.display import display
+from IPython.display import HTML
 
 
 class Map(ipyleaflet.Map):
@@ -22,6 +24,7 @@ class Map(ipyleaflet.Map):
         super().__init__(center=center, zoom=zoom, **kwargs)
         self.scroll_wheel_zoom = scroll_wheel_zoom
         self.layout.height = height
+        self.add_toolkit()
 
     def add_basemap(self, basemap="OpenStreetMap"):
         """Add a basemap to the map.
@@ -39,80 +42,119 @@ class Map(ipyleaflet.Map):
         layer = ipyleaflet.TileLayer(url=url, name=basemap)
         self.add(layer)
 
-    def add_basemap_gui(self, options=None, position="topright", **kwargs):
-        """Add a basemap GUI to the map.
+    def add_toolkit(self, basemaps=None, position="topright"):
+        import ipywidgets as widgets
+        import ipyleaflet
 
-        Args:
-            options (list): List of basemap options.
-            position (str): Position of the GUI on the map.
-            **kwargs: Additional arguments for ipyleaflet.WidgetControl.
-
-        Behavior:
-            - When the map is clicked, a dropdown menu appears with the available basemap options.
-            - The user can select a basemap from the dropdown.
-            - The selected basemap is added to the map.
-            - The user can close the dropdown menu by clicking the close button.
-            - The user can toggle the visibility of the dropdown menu by clicking the toggle button.
-
-        Event Handlers:
-            - on_toggle_change: Handles the toggle button click event.
-            - on_button_click: Handles the close button click event.
-            - on_dropdown_change: Handles the dropdown selection change event.
-        """
-
-        if options is None:
-            options = [
+        if basemaps is None:
+            basemaps = [
                 "OpenStreetMap.Mapnik",
                 "OpenTopoMap",
                 "Esri.WorldImagery",
+                "Gaode.Satellite",
                 "CartoDB.DarkMatter",
+                "CartoDB.Positron",
             ]
 
-        toggle = widgets.ToggleButton(
-            value=True,
-            button_style="",
-            tooltip="Click me",
-            icon="map",
+        # Master toggle to open/close toolkit
+        toolkit_toggle = widgets.ToggleButton(
+            value=False,
+            icon="cogs",  # Or "wrench", "tools", "gear"
+            tooltip="Toggle widget toolkit",
+            layout=widgets.Layout(width="38px", height="38px"),
         )
-        toggle.layout = widgets.Layout(width="38px", height="38px")
 
-        dropdown = widgets.Dropdown(
-            options=options,
-            value=options[0],
+        # Individual toggles
+        map_toggle = widgets.ToggleButton(
+            value=False,
+            icon="map",
+            tooltip="Toggle basemap selector",
+            layout=widgets.Layout(width="38px", height="38px"),
+            button_style="info",
+        )
+
+        opacity_toggle = widgets.ToggleButton(
+            value=False,
+            icon="adjust",
+            tooltip="Toggle opacity control",
+            layout=widgets.Layout(width="38px", height="38px"),
+            button_style="info",
+        )
+
+        # close_btn = widgets.Button(icon="times", tooltip="Close panel",
+        #                         layout=widgets.Layout(width="38px", height="38px"))
+
+        # Basemap dropdown
+        basemap_dropdown = widgets.Dropdown(
+            options=basemaps,
+            value=basemaps[0],
             description="Basemap:",
+            layout=widgets.Layout(width="250px", height="38px"),
             style={"description_width": "initial"},
         )
-        dropdown.layout = widgets.Layout(width="250px", height="38px")
 
-        button = widgets.Button(icon="times")
-        button.layout = widgets.Layout(width="38px", height="38px")
+        # Opacity slider
+        opacity_slider = widgets.IntSlider(
+            value=100,
+            min=0,
+            max=100,
+            step=1,
+            description="Opacity (%)",
+            layout=widgets.Layout(width="250px", height="38px"),
+        )
 
-        hbox = widgets.HBox([toggle, dropdown, button])
+        # Toolkit header row
+        button_row = widgets.HBox([map_toggle, opacity_toggle])
 
-        def on_toggle_change(change):
-            if change["new"]:
-                hbox.children = [toggle, dropdown, button]
-            else:
-                hbox.children = [toggle]
+        # Main container
+        container = widgets.VBox([toolkit_toggle])  # initially only toolkit button
 
-        toggle.observe(on_toggle_change, names="value")
+        # Helper to get current basemap
+        def get_current_basemap():
+            for layer in reversed(self.layers):
+                if isinstance(layer, ipyleaflet.TileLayer):
+                    return layer
+            return None
 
-        def on_button_click(b):
-            hbox.close()
-            toggle.close()
-            dropdown.close()
-            button.close()
+        # Layout update logic
+        def update_container():
+            children = [toolkit_toggle]
+            if toolkit_toggle.value:
+                children.append(button_row)
+                if map_toggle.value:
+                    children.append(basemap_dropdown)
+                if opacity_toggle.value:
+                    children.append(opacity_slider)
+            container.children = children
 
-        button.on_click(on_button_click)
+        # Event listeners
+        toolkit_toggle.observe(lambda c: update_container(), names="value")
+        map_toggle.observe(lambda c: update_container(), names="value")
+        opacity_toggle.observe(lambda c: update_container(), names="value")
+        # close_btn.on_click(lambda b: container.close())
 
-        def on_dropdown_change(change):
-            if change["new"]:
-                self.layers = self.layers[:-2]
-                self.add_basemap(change["new"])
+        # Functional logic
+        basemap_dropdown.observe(
+            lambda change: (
+                self.remove_layer(get_current_basemap()),
+                self.add_basemap(change["new"]),
+                setattr(get_current_basemap(), "opacity", opacity_slider.value / 100),
+            ),
+            names="value",
+        )
 
-        dropdown.observe(on_dropdown_change, names="value")
+        opacity_slider.observe(
+            lambda change: setattr(
+                get_current_basemap(), "opacity", change["new"] / 100
+            ),
+            names="value",
+        )
 
-        control = ipyleaflet.WidgetControl(widget=hbox, position=position)
+        # Initial state
+        update_container()
+
+        # Add to map
+        control = ipyleaflet.WidgetControl(widget=container, position=position)
         self.add(control)
 
     def add_widget(self, widget, position="topright", **kwargs):
@@ -138,7 +180,9 @@ class Map(ipyleaflet.Map):
         map_type = map_types[map_type.lower()]
 
         url = f"https://mt1.google.com/maps/vt/lyrs={map_type}&x={{x}}&y={{y}}&z={{z}}"
-        layer = ipyleaflet.TileLayer(url=url, name=f"Google {map_type.capitalize()}")
+        layer = ipyleaflet.TileLayer(
+            url=url, name=f"Google {map_type.capitalize()}", attribution="Google"
+        )
         self.add(layer)
 
     def add_geojson(self, data, zoom_to_layer=True, hover_style=None, **kwargs):
@@ -237,6 +281,16 @@ class Map(ipyleaflet.Map):
 
         layer_control = ipyleaflet.LayersControl(position="topright", **kwargs)
         self.add_control(layer_control)
+
+    def add_fullscreen(self, **kwargs):
+        """Add a fullscreen control to the map.
+
+        Args:
+            **kwargs: Additional arguments for ipyleaflet.FullScreenControl.
+        """
+
+        fullscreen = ipyleaflet.FullScreenControl(position="topright", **kwargs)
+        self.add_control(fullscreen)
 
     def add_raster(self, filepath, **kwargs):
         """Add a raster layer to the map.
